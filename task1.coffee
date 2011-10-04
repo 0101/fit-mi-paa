@@ -1,8 +1,6 @@
 knap = require './knapsack'
 {ifn, sfn, Clone} = knap
 
-profiler = require 'v8-profiler'
-
 
 heuristicSolve = ({items, maxWeight}) ->
 
@@ -50,41 +48,33 @@ bruteForceSolve = ({items, maxWeight}) ->
 
 
 
-run =
-
-  heuristic: (callback) ->
-    remaining = knap.availableCounts.length
-    knap.availableCounts.map (n) ->
-      knap.measureError ifn(n), sfn(n), heuristicSolve, (avgError) ->
-        console.log "n: #{n}\taverage relative error: #{avgError}"
-        remaining -= 1
-        if remaining is 0 then callback?()
+runHeuristicRE = ->
+  console.log "\n\nHeuristic relative error for all instances"
+  knap.availableCounts.map (n) ->
+    knap.measureError ifn(n), sfn(n), heuristicSolve, (avgError) ->
+      console.log "n: #{n}\taverage relative error: #{avgError}"
 
 
-  bruteforce: (n, limit=0, repeat=1, callback) ->
-    for x in [1..repeat]
-      knap.testSolver ifn(n), sfn(n), bruteForceSolve, limit, ->
-        repeat -= 1
-        if repeat < 1 then callback?()
+runHeuristic = (n, repeat=1) ->
+  console.log "\n\nHeuristic for n=#{n} repeated #{repeat} times"
+  for x in [1..repeat]
+    knap.testSolver ifn(n), sfn(n), heuristicSolve
+
+
+runBruteforce = (n, limit=0) ->
+  console.log "\n\nBruteforce for #{limit or 'all'} instance(s) of length #{n}"
+  knap.testSolver ifn(n), sfn(n), bruteForceSolve, limit
 
 
 knap.debug false
 
-
-profiler.startProfiling 'heuristic'
-run.heuristic ->
-  p = profiler.stopProfiling 'heuristic'
-
-
-[4].map (n) ->
-  label = "bruteforce-#{n}"
-  profiler.startProfiling label
-  run.bruteforce n, 0, 1, ->
-    p = profiler.stopProfiling label
-    console.log "bruteforce #{n} done."
-
-
-# wait for termination
-wait = -> setInterval wait, 9000
-wait()
+if process.argv[2] is 'h'
+  if process.argv.length < 4
+    runHeuristicRE()
+  else
+    [n, repeat] = process.argv[3..]
+    runHeuristic n, repeat
+else
+  [n, limit] = process.argv[2..]
+  runBruteforce n, limit
 
