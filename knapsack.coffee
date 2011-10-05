@@ -1,20 +1,6 @@
 # Knapsack utility funcitons
 
-fs = require 'fs'
-
-
-debug = true
-
-log = (args...) -> console.log args... if debug
-
-
-readTextFile = (filename, callback) ->
-  fs.readFile filename, 'utf-8', (err, data) ->
-    if err then throw err
-    callback (line for line in data.split '\n' when line.trim())
-
-
-parseNubmers = (text) -> (parseInt x for x in text.split /\s+/)
+{debug, readTextFile, parseNubmers} = require './common'
 
 
 loadSolutions = (filename, callback) ->
@@ -62,22 +48,22 @@ testSolver = (instancesFile, solutionsFile, solve, limit=0, callback) ->
     {value, solution} = solve instance
 
     if value isnt correct.value
-      log "Test Failed", {instance, value, solution, correct}
-      log instance.items
+      debug "Test Failed", {instance, value, solution, correct}
+      debug instance.items
       failed += 1
       return
 
     for n, i in solution
       if n isnt correct.solution[i]
-        log "Warning", {instance, value, solution, correct}
+        debug "Warning", {instance, value, solution, correct}
         warn += 1
         return
 
     ok += 1
-    log instance.id, 'OK'
+    debug instance.id, 'OK'
 
   testSetWrapper instancesFile, solutionsFile, test, limit, ->
-    log "correct: #{ok}, warning: #{warn}, failed: #{failed}"
+    debug "correct: #{ok}, warning: #{warn}, failed: #{failed}"
     callback?()
 
 
@@ -117,4 +103,3 @@ module.exports =
   # solutions filename
   sfn: (n) -> "knap/knap_#{n}.sol.dat"
 
-  debug: (x) -> debug = x

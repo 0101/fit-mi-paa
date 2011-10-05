@@ -66,7 +66,6 @@ runBruteforce = (n, limit=0) ->
   knap.testSolver ifn(n), sfn(n), bruteForceSolve, limit
 
 
-knap.debug false
 
 if process.argv[2] is 'h'
   if process.argv.length < 4
