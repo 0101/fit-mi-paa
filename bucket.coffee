@@ -1,8 +1,6 @@
-# Bucket problem 
+# Bucket problem
 
-{debug, setDebug, print, readTextFile, parseNubmers} = require './common'
-
-setDebug false
+{print, readTextFile, parseNubmers, sum, equalNumbers} = require './common'
 
 
 loadInstances = (filename, callback) ->
@@ -12,16 +10,16 @@ loadInstances = (filename, callback) ->
       capacity = data[...n]
       initial = data[n...2*n]
       target = data[2*n...]
-      {id, n, capacity, initial, target}
+      {id, capacity, initial, target}
 
     callback instances
 
 
 makeActions = (bucketCount) ->
   ### Create a set of all possible actions for given bucket count
-  
+
   Returns an array of objects containing a `name` and two functions that take
-  bucket-values and bucket-capacities as parameters:  
+  bucket-values and bucket-capacities as parameters:
     `condition`: returns whether the action can be performed
     `action`: returns new bucket-values resulting from the action
   ###
@@ -32,7 +30,6 @@ makeActions = (bucketCount) ->
     name: "Fill #{i}"
     condition: (buckets, capacity) -> buckets[i] < capacity[i]
     action: (buckets, capacity) ->
-      debug "-> fill #{i}"
       for bucket, index in buckets
         if index is i then capacity[i] else bucket
 
@@ -40,7 +37,6 @@ makeActions = (bucketCount) ->
     name: "Empty #{i}"
     condition: (buckets) -> buckets[i] > 0
     action: (buckets) ->
-      debug "-> empty #{i}"
       for bucket, index in buckets
         if index is i then 0 else bucket
 
@@ -53,9 +49,8 @@ makeActions = (bucketCount) ->
         condition: (buckets, capacity) ->
           buckets[src] > 0 and buckets[dest] < capacity[dest]
         action: (buckets, capacity) ->
-          debug "-> pour #{src} to #{dest}"
           amount = Math.min(buckets[src], capacity[dest] - buckets[dest])
-          
+
           for bucket, index in buckets
             if index is src
               buckets[src] - amount
@@ -68,23 +63,12 @@ makeActions = (bucketCount) ->
   [].concat fillActions, emptyActions, pourActions
 
 
-equal = (array, brray) ->
-  if array.length isnt brray.length then return false
-  for a, index in array
-    if a isnt brray[index] then return false
-  true
-
-
-solve = ({capacity, initial, target}, queue, name='unnamed') ->
+solve = ({capacity, initial, target}, queue) ->
   ### Bucket solver template.
-  
+
   the `queue` object must provide the following interface:
     push(object), pop() = object, isEmpty() = true/false
   ###
-  print "\nBuckets with #{name}\n
-    buckets: #{capacity}\n
-    initial fill: #{initial}\n
-    target: #{target}\n"
 
   initialState = buckets: initial, depth: 0, action: 'Start'
   queue.push initialState
@@ -92,41 +76,34 @@ solve = ({capacity, initial, target}, queue, name='unnamed') ->
   visited = {}
 
   actions = makeActions initial.length
-  
+
   until queue.isEmpty()
     state = queue.pop()
     {buckets, depth} = state
 
-    debug '_______________________________________'
-    debug 'UNSHIFTED: ', buckets
-    
     for {action, condition, name} in actions when condition buckets, capacity
       newBuckets = action buckets, capacity
-      debug newBuckets
-      if visited[newBuckets]
-        debug '\tvisited\n'
-        continue
-      debug 'NEW\n'
+
+      if visited[newBuckets] then continue
+
       visited[newBuckets] = true
-      
+
       newState =
         buckets: newBuckets
         depth: depth + 1
         action: name
         previous: state
 
-      if equal newBuckets, target
+      if equalNumbers newBuckets, target
         count = (x for x of visited).length
-        print "Solution found at depth #{depth + 1}, visited #{count} states"
-        print "Backtrack:"
-        s = newState
-        while s
-          print "#{s.depth}\t#{s.buckets}\t(#{s.action})"
-          s = s.previous
-        return true
+        return solutionFound: true, state: newState, count: count
 
       queue.push newState
 
+  return solutionFound: false
+
+
+# Data structures
 
 Stack = ->
   stack = []
@@ -157,28 +134,61 @@ PriorityQueue = (getPriority) ->
   isEmpty: queue.isEmpty
 
 
-solveBFS = (instance) -> solve instance, Queue(), 'BFS'
-solveDFS = (instance) -> solve instance, Stack(), 'DFS'
+
+Solvers =
+
+  BFS: (instance) -> solve instance, Queue()
+
+  DFS: (instance) -> solve instance, Stack()
+
+  PQSum: (instance) ->
+    # priority based on how close is sum of values to the sum of target values
+    targetSum = sum instance.target
+    solve instance, PriorityQueue ({buckets}) -> -(Math.abs(targetSum - sum buckets))
+
+  PQCount: (instance) ->
+    # priority based on how many of the buckets are already filled correctly
+    getPriority =
+    solve instance, PriorityQueue ({buckets}) ->
+      sum (1 for bucket, i in buckets when bucket is instance.target[i])
+
+  PQRand: (instance) ->
+    # random priority a.k.a. I'm feeling lucky
+    solve instance, PriorityQueue Math.random
 
 
-solvePQSum = (instance) ->
-  sum = (x) -> x.reduce (a,b) -> a+b
-  targetSum = sum instance.target
-  getPriority = (state) -> -(Math.abs(targetSum - sum state.buckets))
-  solve instance, PriorityQueue(getPriority), 'PQ-Sum'
+runVerbose = (instance, solvers) ->
+  print "\nInstance #{instance.id}\n
+    buckets: #{instance.capacity}\n
+    initial fill: #{instance.initial}\n
+    target: #{instance.target}"
 
-solvePQRandom = (instance) ->
-  solve instance, PriorityQueue(Math.random), 'PQ-Random'
+  for name, solver of solvers
+    print "\nUsing #{name}"
+    {solutionFound, state, count} = solver instance
+    if solutionFound
+      print "Solution found at depth #{state.depth}, visited #{count} states"
+      printBacktrack state
 
 
-testingInstance = capacity: [4,3], initial: [0,0], target: [2,0]
+runSparse = (instance, solvers) ->
+  print "\nInstance #{instance.id}"
+  for name, solver of solvers
+    {solutionFound, state, count} = solver instance
+    if solutionFound
+      print "#{name}\tdepth:\t#{state.depth}\tvisited:\t#{count}"
+    else
+      print "#{name} Solution not found."
 
-solveBFS testingInstance
-solveDFS testingInstance
-solvePQSum testingInstance
-solvePQRandom testingInstance
 
-#loadInstances 'bucket/bu.inst.dat', (instances) ->
-#  solveBFS instances[0]
-#  solveDFS instances[0]
+printBacktrack = (state) ->
+  print "Backtrack:"
+  while state
+    print "#{state.depth}\t#{state.buckets}\t(#{state.action})"
+    state = state.previous
+
+
+loadInstances 'bucket/bu.inst.dat', (instances) ->
+  run = if process.argv[2] is '-v' then runVerbose else runSparse
+  run instance, Solvers for instance in instances
 

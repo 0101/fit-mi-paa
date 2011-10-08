@@ -1,6 +1,20 @@
-# Knapsack utility funcitons
+### Knapsack utility funcitons
 
-{debug, readTextFile, parseNubmers} = require './common'
+Data structures / interfaces:
+
+Instances are objects with the following properties:
+ id: id of the instance
+ maxWeight: knapsack weight limit
+ items: array of items where each item is an array of [weight, value, index]
+
+Solutions are objects with properties:
+  value: sum of values in the knapsack
+  solution: array of 1s and 0s marking which items are in the knapsack
+
+Solve functions should accept an instance and return a solution as described above.
+###
+
+{debug, readTextFile, parseNubmers, average} = require './common'
 
 
 loadSolutions = (filename, callback) ->
@@ -32,6 +46,11 @@ loadInstances = (filename, limit=0, callback) ->
 
 
 testSetWrapper = (instancesFile, solutionsFile, test, limit=0, callback) ->
+  ###  Run given `test` function for all instances in `instancesFile`.
+
+  The function also gets a second parameter, which is the correct solution
+  for the instance according to `solutionsFile`.
+  ###
   loadSolutions solutionsFile, (solutions) ->
     loadInstances instancesFile, limit, (instances) ->
       results = (test i, solutions[i.id] for i in instances)
@@ -67,9 +86,6 @@ testSolver = (instancesFile, solutionsFile, solve, limit=0, callback) ->
     callback?()
 
 
-average = (array) -> array.reduce((a,b) -> a+b) / array.length
-
-
 measureError = (instancesFile, solutionsFile, solve, callback) ->
   # measure average relative error of `solve` function values for instances
   # in `instancesFile` compared to values in `solutionsFile`
@@ -81,8 +97,8 @@ measureError = (instancesFile, solutionsFile, solve, callback) ->
     callback average results
 
 
-# deep-copy utility functions
 Clone =
+  # deep-copy utility functions
   array: (array) -> array.slice 0
   array2D: (array) -> (Clone.array a for a in array)
   sack: ({value, weight, solution}) ->

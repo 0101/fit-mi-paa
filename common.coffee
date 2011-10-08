@@ -19,4 +19,18 @@ readTextFile = (filename, callback) ->
 parseNubmers = (text) -> (parseInt x for x in text.split /\s+/)
 
 
-module.exports = {print, debug, setDebug, readTextFile, parseNubmers}
+sum = (array) -> array.reduce ((a, b) -> a + b), 0
+
+
+average = (array) -> sum(array) / array.length
+
+
+equalNumbers = (array, brray) ->
+  if array.length isnt brray.length then return false
+  for a, index in array
+    if a isnt brray[index] then return false
+  true
+
+
+module.exports = {print, debug, setDebug, readTextFile, parseNubmers,
+  sum, average, equalNumbers}
