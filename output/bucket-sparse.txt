@@ -1,0 +1,105 @@
+
+Instance 11
+BFS	depth:	10	visited:	8992
+DFS	depth:	635	visited:	6496
+PQSum	depth:	24	visited:	1362
+PQCount	depth:	26	visited:	1385
+PQRand	depth:	38	visited:	8454
+
+Instance 12
+BFS	depth:	8	visited:	7989
+DFS	depth:	697	visited:	6809
+PQSum	depth:	15	visited:	773
+PQCount	depth:	13	visited:	652
+PQRand	depth:	35	visited:	6637
+
+Instance 13
+BFS	depth:	8	visited:	7896
+DFS	depth:	132	visited:	1148
+PQSum	depth:	8	visited:	254
+PQCount	depth:	17	visited:	220
+PQRand	depth:	22	visited:	1483
+
+Instance 14
+BFS	depth:	3	visited:	156
+DFS	depth:	51	visited:	2385
+PQSum	depth:	3	visited:	30
+PQCount	depth:	4	visited:	49
+PQRand	depth:	3	visited:	1912
+
+Instance 21
+BFS	depth:	16	visited:	49350
+DFS	depth:	8677	visited:	40057
+PQSum	depth:	164	visited:	28966
+PQCount	depth:	33	visited:	2841
+PQRand	depth:	173	visited:	44188
+
+Instance 22
+BFS	depth:	12	visited:	41669
+DFS	depth:	4441	visited:	27228
+PQSum	depth:	67	visited:	9644
+PQCount	depth:	37	visited:	1924
+PQRand	depth:	77	visited:	37392
+
+Instance 23
+BFS	depth:	11	visited:	35750
+DFS	depth:	4787	visited:	28709
+PQSum	depth:	69	visited:	7369
+PQCount	depth:	44	visited:	3014
+PQRand	depth:	88	visited:	16000
+
+Instance 24
+BFS	depth:	5	visited:	872
+DFS	depth:	296	visited:	3248
+PQSum	depth:	23	visited:	565
+PQCount	depth:	8	visited:	334
+PQRand	depth:	39	visited:	2861
+
+Instance 25
+BFS	depth:	7	visited:	6324
+DFS	depth:	868	visited:	7813
+PQSum	depth:	10	visited:	1829
+PQCount	depth:	27	visited:	1051
+PQRand	depth:	67	visited:	10246
+
+Instance 31
+BFS	depth:	14	visited:	59200
+DFS	depth:	12492	visited:	57467
+PQSum	depth:	50	visited:	7412
+PQCount	depth:	27	visited:	2514
+PQRand	depth:	90	visited:	48627
+
+Instance 32
+BFS	depth:	12	visited:	58772
+DFS	depth:	7092	visited:	39453
+PQSum	depth:	82	visited:	6860
+PQCount	depth:	37	visited:	3269
+PQRand	depth:	30	visited:	41918
+
+Instance 33
+BFS	depth:	10	visited:	40908
+DFS	depth:	1065	visited:	10733
+PQSum	depth:	56	visited:	4114
+PQCount	depth:	26	visited:	817
+PQRand	depth:	63	visited:	33242
+
+Instance 34
+BFS	depth:	5	visited:	1461
+DFS	depth:	370	visited:	3721
+PQSum	depth:	8	visited:	837
+PQCount	depth:	8	visited:	81
+PQRand	depth:	61	visited:	2831
+
+Instance 35
+BFS	depth:	7	visited:	9155
+DFS	depth:	395	visited:	4030
+PQSum	depth:	13	visited:	897
+PQCount	depth:	7	visited:	767
+PQRand	depth:	28	visited:	4553
+
+Instance 36
+BFS	depth:	9	visited:	27773
+DFS	depth:	1894	visited:	16949
+PQSum	depth:	37	visited:	3409
+PQCount	depth:	15	visited:	409
+PQRand	depth:	83	visited:	28144

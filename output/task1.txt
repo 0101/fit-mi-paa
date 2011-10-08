@@ -1,0 +1,139 @@
+﻿Heuristic relative error for all instances
+n: 4    average relative error: 0.021745081134443733
+n: 10   average relative error: 0.012861985803957563
+n: 15   average relative error: 0.0047589181659385745
+n: 20   average relative error: 0.006000856194546453
+n: 22   average relative error: 0.006866935530406484
+n: 25   average relative error: 0.004983555500015275
+n: 27   average relative error: 0.005016500222203765
+n: 30   average relative error: 0.005074466903192175
+n: 32   average relative error: 0.003411918757905006
+n: 35   average relative error: 0.0028018539555894183
+n: 37   average relative error: 0.0034360862601805287
+n: 40   average relative error: 0.0019948679358780526
+
+
+Heuristic for n=4 repeated 100 times
+
+real    0m0.280s
+user    0m0.248s
+sys     0m0.020s
+
+
+Heuristic for n=10 repeated 100 times
+
+real    0m0.384s
+user    0m0.312s
+sys     0m0.036s
+
+
+Heuristic for n=15 repeated 100 times
+
+real    0m0.510s
+user    0m0.424s
+sys     0m0.016s
+
+
+Heuristic for n=20 repeated 100 times
+
+real    0m0.567s
+user    0m0.488s
+sys     0m0.036s
+
+
+Heuristic for n=22 repeated 100 times
+
+real    0m0.623s
+user    0m0.552s
+sys     0m0.012s
+
+
+Heuristic for n=25 repeated 100 times
+
+real    0m0.706s
+user    0m0.616s
+sys     0m0.012s
+
+
+Heuristic for n=27 repeated 100 times
+
+real    0m0.681s
+user    0m0.628s
+sys     0m0.020s
+
+
+Heuristic for n=30 repeated 100 times
+
+real    0m0.783s
+user    0m0.676s
+sys     0m0.044s
+
+
+Heuristic for n=32 repeated 100 times
+
+real    0m0.809s
+user    0m0.692s
+sys     0m0.048s
+
+
+Heuristic for n=35 repeated 100 times
+
+real    0m0.880s
+user    0m0.768s
+sys     0m0.028s
+
+
+Heuristic for n=37 repeated 100 times
+
+real    0m0.917s
+user    0m0.812s
+sys     0m0.032s
+
+
+Heuristic for n=40 repeated 100 times
+
+real    0m0.952s
+user    0m0.876s
+sys     0m0.040s
+
+
+Bruteforce for all instance(s) of length 4
+
+real    0m0.128s
+user    0m0.096s
+sys     0m0.004s
+
+
+Bruteforce for all instance(s) of length 10
+
+real    0m0.181s
+user    0m0.164s
+sys     0m0.016s
+
+
+Bruteforce for all instance(s) of length 15
+
+real    0m4.008s
+user    0m3.744s
+sys     0m0.056s
+
+
+Bruteforce for 2 instance(s) of length 20
+
+real    0m4.559s
+user    0m4.308s
+sys     0m0.036s
+
+
+Bruteforce for 1 instance(s) of length 22
+
+real    0m9.449s
+user    0m8.949s
+sys     0m0.028s
+
+
+Bruteforce for 1 instance(s) of length 25
+
+real    1m1.174s
+user    0m57.992s
+sys     0m0.104s
