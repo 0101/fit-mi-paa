@@ -148,7 +148,6 @@ Solvers =
 
   PQCount: (instance) ->
     # priority based on how many of the buckets are already filled correctly
-    getPriority =
     solve instance, PriorityQueue ({buckets}) ->
       sum (1 for bucket, i in buckets when bucket is instance.target[i])
 
