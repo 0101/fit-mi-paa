@@ -14,7 +14,7 @@ Solutions are objects with properties:
 Solve functions should accept an instance and return a solution as described above.
 ###
 
-{debug, readTextFile, parseNubmers, average} = require './common'
+{debug, readTextFile, parseNubmers, average, max} = require './common'
 
 
 loadSolutions = (filename, callback) ->
@@ -86,7 +86,7 @@ testSolver = (instancesFile, solutionsFile, solve, limit=0, callback) ->
     callback?()
 
 
-measureError = (instancesFile, solutionsFile, solve, callback) ->
+measureError = (instancesFile, solutionsFile, solve, callback, reduce) ->
   # measure average relative error of `solve` function values for instances
   # in `instancesFile` compared to values in `solutionsFile`
   test = (instance, correct) ->
@@ -94,7 +94,10 @@ measureError = (instancesFile, solutionsFile, solve, callback) ->
     (correct.value - value) / correct.value
 
   testSetWrapper instancesFile, solutionsFile, test, 0, (results) ->
-    callback average results
+    callback reduce results
+
+measureAvgError = (args...) -> measureError args..., average
+measureMaxError = (args...) -> measureError args..., max
 
 
 Clone =
@@ -110,7 +113,8 @@ Clone =
 module.exports =
   loadInstances: loadInstances
   testSolver: testSolver
-  measureError: measureError
+  measureAvgError: measureAvgError
+  measureMaxError: measureMaxError
   Clone: Clone
 
   availableCounts: [4,10,15,20,22,25,27,30,32,35,37,40]

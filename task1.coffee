@@ -51,8 +51,11 @@ bruteForceSolve = ({items, maxWeight}) ->
 runHeuristicRE = ->
   console.log "\n\nHeuristic relative error for all instances"
   knap.availableCounts.map (n) ->
-    knap.measureError ifn(n), sfn(n), heuristicSolve, (avgError) ->
-      console.log "n: #{n}\taverage relative error: #{avgError}"
+    knap.measureAvgError ifn(n), sfn(n), heuristicSolve, (avgError) ->
+      console.log "n: #{n}\taverage relative error:\t#{avgError}"
+  knap.availableCounts.map (n) ->
+    knap.measureMaxError ifn(n), sfn(n), heuristicSolve, (maxError) ->
+      console.log "n: #{n}\tmaximal relative error:\t#{maxError}"
 
 
 runHeuristic = (n, repeat=1) ->

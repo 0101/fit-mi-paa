@@ -11,6 +11,18 @@ n: 32   average relative error: 0.003411918757905006
 n: 35   average relative error: 0.0028018539555894183
 n: 37   average relative error: 0.0034360862601805287
 n: 40   average relative error: 0.0019948679358780526
+n: 4    maximal relative error: 0.36363636363636365
+n: 10   maximal relative error: 0.11480075901328274
+n: 15   maximal relative error: 0.08542713567839195
+n: 20   maximal relative error: 0.08433734939759036
+n: 22   maximal relative error: 0.07228915662650602
+n: 25   maximal relative error: 0.03678929765886288
+n: 27   maximal relative error: 0.10601719197707736
+n: 30   maximal relative error: 0.05513784461152882
+n: 32   maximal relative error: 0.0334075723830735
+n: 35   maximal relative error: 0.04609218436873747
+n: 37   maximal relative error: 0.08196721311475409
+n: 40   maximal relative error: 0.02337228714524207
 
 
 Heuristic for n=4 repeated 100 times

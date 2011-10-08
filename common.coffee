@@ -25,6 +25,9 @@ sum = (array) -> array.reduce ((a, b) -> a + b), 0
 average = (array) -> sum(array) / array.length
 
 
+max = (array) -> Math.max array...
+
+
 equalNumbers = (array, brray) ->
   if array.length isnt brray.length then return false
   for a, index in array
@@ -33,4 +36,4 @@ equalNumbers = (array, brray) ->
 
 
 module.exports = {print, debug, setDebug, readTextFile, parseNubmers,
-  sum, average, equalNumbers}
+  sum, average, max, equalNumbers}
