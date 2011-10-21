@@ -86,15 +86,16 @@ testSolver = (instancesFile, solutionsFile, solve, limit=0, callback) ->
     callback?()
 
 
-measureError = (instancesFile, solutionsFile, solve, callback, reduce) ->
-  # measure average relative error of `solve` function values for instances
-  # in `instancesFile` compared to values in `solutionsFile`
+measureError = (instancesFile, solutionsFile, solve, callback, aggregate) ->
+  # Measure relative error of `solve` function values for instances
+  # in `instancesFile` compared to values in `solutionsFile`.
+  # Aggregate results using `aggregate` function.
   test = (instance, correct) ->
     {value} = solve instance
     (correct.value - value) / correct.value
 
   testSetWrapper instancesFile, solutionsFile, test, 0, (results) ->
-    callback reduce results
+    callback aggregate results
 
 measureAvgError = (args...) -> measureError args..., average
 measureMaxError = (args...) -> measureError args..., max
