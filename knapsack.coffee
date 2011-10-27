@@ -92,7 +92,8 @@ measureError = (instancesFile, solutionsFile, solve, callback, aggregate) ->
   # Aggregate results using `aggregate` function.
   test = (instance, correct) ->
     {value} = solve instance
-    (correct.value - value) / correct.value
+    debug value, correct.value
+    Math.abs(correct.value - value) / Math.max(value, correct.value)
 
   testSetWrapper instancesFile, solutionsFile, test, 0, (results) ->
     callback aggregate results
