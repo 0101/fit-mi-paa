@@ -14,7 +14,7 @@ Solutions are objects with properties:
 Solve functions should accept an instance and return a solution as described above.
 ###
 
-{debug, readTextFile, parseNubmers, average, max} = require './common'
+{debug, print, readTextFile, parseNubmers, average, max} = require './common'
 
 
 loadSolutions = (filename, callback) ->
@@ -82,7 +82,7 @@ testSolver = (instancesFile, solutionsFile, solve, limit=0, callback) ->
     debug instance.id, 'OK'
 
   testSetWrapper instancesFile, solutionsFile, test, limit, ->
-    debug "correct: #{ok}, warning: #{warn}, failed: #{failed}"
+    print "correct: #{ok}, warning: #{warn}, failed: #{failed}"
     callback?()
 
 
