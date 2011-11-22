@@ -1,0 +1,8 @@
+solveDP max-cena
+value	average error	max error	average steps	max steps
+20	0	0	6147,7	6837
+50	0	0	6147,7	6837
+100	0	0	6147,7	6837
+200	0	0	6147,7	6837
+350	0	0	6147,7	6837
+500	0	0	6147,7	6837

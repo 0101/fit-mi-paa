@@ -1,0 +1,7 @@
+solveBB pocet-veci
+value	average error	max error	average steps	max steps
+5	0	0	14,6	16
+10	0	0	272,5	437
+15	0	0	3258,1	7586
+20	0	0	48019,7	91206
+25	0	0	478268,75	1223684

@@ -86,6 +86,10 @@ testSolver = (instancesFile, solutionsFile, solve, limit=0, callback) ->
     callback?()
 
 
+relativeError = (value, correctValue) ->
+  Math.abs(correctValue - value) / Math.max(value, correctValue)
+
+
 measureError = (instancesFile, solutionsFile, solve, callback, aggregate) ->
   # Measure relative error of `solve` function values for instances
   # in `instancesFile` compared to values in `solutionsFile`.
@@ -93,7 +97,7 @@ measureError = (instancesFile, solutionsFile, solve, callback, aggregate) ->
   test = (instance, correct) ->
     {value} = solve instance
     debug value, correct.value
-    Math.abs(correct.value - value) / Math.max(value, correct.value)
+    relativeError value, correct.value
 
   testSetWrapper instancesFile, solutionsFile, test, 0, (results) ->
     callback aggregate results
@@ -114,10 +118,13 @@ Clone =
 
 module.exports =
   loadInstances: loadInstances
+  testSetWrapper: testSetWrapper
   testSolver: testSolver
+  relativeError: relativeError
   measureAvgError: measureAvgError
   measureMaxError: measureMaxError
   Clone: Clone
+  EmptySack: ({size}) -> weight: 0, value: 0, solution: (0 for x in [0...size])
 
   availableCounts: [4,10,15,20,22,25,27,30,32,35,37,40]
   # instances filename

@@ -1,0 +1,3 @@
+solveCutWeight pocet-instanci
+value	average error	max error	average steps	max steps
+20	0	0	525002,05	526094

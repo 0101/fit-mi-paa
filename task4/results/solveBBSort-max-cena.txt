@@ -1,0 +1,8 @@
+solveBBSort max-cena
+value	average error	max error	average steps	max steps
+20	0	0	17085,55	59475
+50	0	0	15499,3	41519
+100	0	0	15230,75	47953
+200	0	0	18412,7	56447
+350	0	0	14958,85	47347
+500	0	0	11346,35	60650

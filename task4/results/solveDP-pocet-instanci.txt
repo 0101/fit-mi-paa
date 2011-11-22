@@ -1,0 +1,3 @@
+solveDP pocet-instanci
+value	average error	max error	average steps	max steps
+20	0	0	6147,7	6837

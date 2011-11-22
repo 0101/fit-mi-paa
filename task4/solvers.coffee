@@ -1,29 +1,43 @@
-{setDebug, sum, print} = require './common'
-knap = require './knapsack'
-{ifn, sfn, Clone, EmptySack} = knap
+{extend} = require 'underscore'
+{setDebug, sum, print} = require '../common'
+{ifn, sfn, Clone, EmptySack} = require '../knapsack'
+task1HeuristicSolve = require('../task1').heuristicSolve
 
 
-solve = (sack, remainingItems, condition) ->
-  # Knapsack solver template
+heuristicSolve = ({items, maxWeight}) ->
+  # add step count to heursitic solver -- which is alwas the number of items
+  extend task1HeuristicSolve({items, maxWeight}), steps: items.length
 
-  solution: null
 
-  for [weight, value, origIndex], index in remainingItems
-    newSack = Clone.sack sack
-    newSack.weight += weight
-    newSack.value += value
-    newSack.solution[origIndex] = 1
+countSteps = (func) ->
+  counter = 0
+  (args...) -> extend func(args...), steps: counter += 1
 
-    newRemItems = Clone.array2D remainingItems
-    # cut off all items before this one (!)
-    newRemItems.splice 0, index + 1
 
-    if condition newSack, remainingItems
-      newSolution = solve newSack, newRemItems, condition
-      if newSolution.value > (solution?.value or -Infinity)
-        solution = newSolution
+getCountedSolve = ->
+  solve = (sack, remainingItems, condition) ->
+    # Knapsack solver template
 
-  return solution or sack
+    solution: null
+
+    for [weight, value, origIndex], index in remainingItems
+      newSack = Clone.sack sack
+      newSack.weight += weight
+      newSack.value += value
+      newSack.solution[origIndex] = 1
+
+      newRemItems = Clone.array2D remainingItems
+      # cut off all items before this one (!)
+      newRemItems.splice 0, index + 1
+
+      if condition newSack, remainingItems
+        newSolution = solve newSack, newRemItems, condition
+        if newSolution.value > (solution?.value or -Infinity)
+          solution = newSolution
+
+    return solution or sack
+  solve = countSteps solve
+  return solve
 
 
 solveCutWeight = ({items, maxWeight}) ->
@@ -31,7 +45,7 @@ solveCutWeight = ({items, maxWeight}) ->
 
   cutByWeight = (sack) -> sack.weight <= maxWeight
 
-  solve EmptySack(size: items.length), items, cutByWeight
+  getCountedSolve() EmptySack(size: items.length), items, cutByWeight
 
 
 solveBB = ({items, maxWeight}) ->
@@ -51,7 +65,7 @@ solveBB = ({items, maxWeight}) ->
     remainingValue = sum (value for [weight, value, index] in remaining)
     return (sack.value + remainingValue) > bestValue
 
-  solve EmptySack(size: items.length), items, cutByWeightAndValue
+  getCountedSolve() EmptySack(size: items.length), items, cutByWeightAndValue
 
 
 solveBBSort = ({items, maxWeight}) ->
@@ -92,32 +106,15 @@ FPTAS = (b) ->
       else
         solution: [0].concat(sack1.solution), value: sack1.value
 
-    bestSack = cache bestSack, getKey
+    bestSack = cache countSteps(bestSack), getKey
 
     bestSack args...
 
 
-TestRunner = (func, name) ->
-  (n, limit=0) ->
-    print "\n\n#{name} for #{limit or 'all'} instance(s) of length #{n}"
-    knap.testSolver ifn(n), sfn(n), func, limit
+solveDP = FPTAS 0
+solveAPX = FPTAS 3
 
 
-FPTASRunner = (n, b) ->
-  print "\n\nFPTAS-#{b} average relative error for all instance(s) of length #{n}"
-  knap.measureAvgError ifn(n), sfn(n), FPTAS(b), print
+module.exports = {solveBB, solveBBSort, solveCutWeight, solveDP, solveAPX,
+  heuristicSolve}
 
-
-argMap =
-  w: TestRunner solveCutWeight, "Cut-by-weight"
-  bb: TestRunner solveBB, "Branch & Bound"
-  bbs: TestRunner solveBBSort, "B&B + Sort"
-  dp: TestRunner FPTAS(0), "Dynamic Programming"
-  fptas: FPTASRunner
-
-#if process.argv.length < 3
-#  print "Usage: #{process.argv.join ' '} <#{(x for x of argMap).join '|'}> [limit|FPTAS precision]"
-#
-#else
-#  argMap[process.argv[2]] process.argv[3..]...
-module.exports = {solveCutWeight, solveBBSort, FPTAS}

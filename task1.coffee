@@ -70,13 +70,13 @@ runBruteforce = (n, limit=0) ->
 
 
 
-if process.argv[2] is 'h'
-  if process.argv.length < 4
-    runHeuristicRE()
-  else
-    [n, repeat] = process.argv[3..]
-    runHeuristic n, repeat
-else
-  [n, limit] = process.argv[2..]
-  runBruteforce n, limit
-
+#if process.argv[2] is 'h'
+#  if process.argv.length < 4
+#    runHeuristicRE()
+#  else
+#    [n, repeat] = process.argv[3..]
+#    runHeuristic n, repeat
+#else
+#  [n, limit] = process.argv[2..]
+#  runBruteforce n, limit
+module.exports = {heuristicSolve}

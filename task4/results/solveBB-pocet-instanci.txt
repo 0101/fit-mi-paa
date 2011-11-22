@@ -1,0 +1,3 @@
+solveBB pocet-instanci
+value	average error	max error	average steps	max steps
+20	0	0	48019,7	91206

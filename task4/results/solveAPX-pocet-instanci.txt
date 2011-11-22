@@ -1,0 +1,3 @@
+solveAPX pocet-instanci
+value	average error	max error	average steps	max steps
+20	0,004676678607116004	0,028151774785801713	951,5	1207

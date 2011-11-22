@@ -1,0 +1,9 @@
+solveDP pocet-veci
+value	average error	max error	average steps	max steps
+5	0	0	47,65	57
+10	0	0	802,65	974
+15	0	0	2906,75	3241
+20	0	0	6147,7	6837
+25	0	0	10254,35	11764
+30	0	0	15812,45	16978
+40	0	0	29571,4	32807

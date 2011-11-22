@@ -1,0 +1,8 @@
+solveDP max-vaha
+value	average error	max error	average steps	max steps
+30	0	0	2163	2397
+50	0	0	3359,8	3912
+100	0	0	6147,7	6837
+200	0	0	11196,85	12703
+350	0	0	17817,15	20074
+500	0	0	22636,8	25126

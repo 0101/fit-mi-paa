@@ -1,0 +1,7 @@
+solveBBSort pocet-veci
+value	average error	max error	average steps	max steps
+5	0	0	14,45	16
+10	0	0	189,8	384
+15	0	0	1671,9	4694
+20	0	0	15230,75	47953
+25	0	0	137971	440433

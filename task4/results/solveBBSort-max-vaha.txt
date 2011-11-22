@@ -1,0 +1,8 @@
+solveBBSort max-vaha
+value	average error	max error	average steps	max steps
+30	0	0	15106,75	59517
+50	0	0	18801,95	81278
+100	0	0	15230,75	47953
+200	0	0	11411,85	38262
+350	0	0	17056,1	65987
+500	0	0	13897,7	32053

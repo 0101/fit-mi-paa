@@ -1,0 +1,3 @@
+heuristicSolve pocet-instanci
+value	average error	max error	average steps	max steps
+20	0,011332283433606042	0,04142692750287687	20	20
