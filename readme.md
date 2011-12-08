@@ -16,3 +16,9 @@ Common functions for the knapsack problem.
 `task4/`
 **4th assignment**: measuring knapsack solvers' performance for various types of instances
 
+`ga/`
+Genetic algorithms.
+
+`task5.coffee`
+**5th assignment**: solving knapsack using simulated evolution.
+
