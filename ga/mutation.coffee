@@ -16,8 +16,8 @@ Mutation =
 
   # Mutate a binary-array type individual by flipping `count` random bits.
   invertBits: (count) -> (individual, opts) ->
-    alterBitAt = randomInteger 0, individual.length
-    individual.map (x, index) -> if alterBitAt is index then invert x else x
+    selected = [1..count].map -> randomInteger 0, individual.length
+    individual.map (x, index) -> if index in selected then invert x else x
 
 
 module.exports = Mutation
