@@ -96,7 +96,7 @@ measureError = (instancesFile, solutionsFile, solve, callback, aggregate) ->
   # Aggregate results using `aggregate` function.
   test = (instance, correct) ->
     {value} = solve instance
-    debug value, correct.value
+    debug value - correct.value
     relativeError value, correct.value
 
   testSetWrapper instancesFile, solutionsFile, test, 0, (results) ->
@@ -118,6 +118,7 @@ Clone =
 
 module.exports =
   loadInstances: loadInstances
+  loadSolutions: loadSolutions
   testSetWrapper: testSetWrapper
   testSolver: testSolver
   relativeError: relativeError
