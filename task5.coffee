@@ -6,6 +6,7 @@ knap = require './knapsack'
 {randomBinArray} = require './ga/utils'
 Selection = require './ga/selection'
 Crossover = require './ga/crossover'
+Mutation = require './ga/mutation'
 
 
 selected = (items, mapping) ->
@@ -49,8 +50,6 @@ KnapsackGASolver = (options) ->
           f -= opts.notSolutionPenalty
         return f
 
-      selection: Selection.first 40
-
       cycleFinished: (population, opts) ->
         stats.cycles += 1
         best = population.sort(funcComp (i) -> -opts.fitness(i, opts))[0]
@@ -67,11 +66,15 @@ setDebug true
 
 
 measure = (label, solver, instance, optimal, callback) ->
-  {value, stats} = solver instance
+  solution = solver instance
   callback
     label: label
-    error: relativeError value, optimal.value
-    history: stats.history.map (v) -> relativeError v, optimal.value
+    error: relativeError solution.value, optimal.value
+    history: solution.stats.history.map (v) -> relativeError v, optimal.value
+
+repeatedMeasure = (times, label, args...) ->
+  measure("(#{i}) #{label}", args...) for i in [1..times]
+
 
 printMeasurements = ({label, history}) ->
   print "#{label}:\t#{history.join '\t'}".replace /\./g, ','
@@ -83,16 +86,36 @@ loadTestingInstances = (n, callback) ->
       callback instances, solutions
 
 
+solvers =
+  allCombinations: -> KnapsackGASolver
+    selection: Selection.first 30
+    crossover: Crossover.allCombinationsMixin
+
+  randomMixin: -> KnapsackGASolver
+    selection: Selection.first 50
+    crossover: Crossover.randomMixin 250
+
+  randomPairsReplace: -> KnapsackGASolver
+    selection: Selection.first 50
+    crossover: Crossover.randomPairsReplace 20
+
+  heavyMutation: -> KnapsackGASolver
+    selection: Selection.first 50
+    crossover: Crossover.randomReplace 200
+    mutation: Mutation.random 100
+    mutate: Mutation.invertBits 10
+
+
+
 if process.argv.length > 2
-  instanceIndex = process.argv[2]
+  solverId = process.argv[2]
+  solver = solvers[solverId]
+  instanceIndex = process.argv[3]
   loadTestingInstances 40, (instances, solutions) ->
     instance = instances[instanceIndex]
     solution = solutions[instance.id]
-    measure("Default, instance #{instanceIndex}", KnapsackGASolver(
-      crossover: Crossover.randomPairsReplace 30
-      selection: Selection.first 30
-      maxCycles: 100
-    ), instance, solution, printMeasurements)
+    repeatedMeasure(5, "#{solverId}, instance #{instanceIndex}",
+      solver(), instance, solution, printMeasurements)
 
 
 
