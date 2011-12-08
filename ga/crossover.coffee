@@ -2,7 +2,6 @@
 {randomBinArray, selectRandom, popRandom} = require './utils'
 
 
-
 allCombinations = (population, opts) ->
   newIndividuals = []
   for a, i in population
@@ -21,14 +20,10 @@ random = (count) -> (population, opts) ->
 randomPairs = (repeat) -> (population, opts) ->
   results = [0...repeat].map ->
     p = [].concat population
-    #console.log "p[0]:",p[0]
-    #console.log "Pop[0]:", population[0]
-    x = [0...population.length/2].map ->
-      a = popRandom p
-      b = popRandom p
-      opts.cross a, b, opts
-    return x
-  return [].concat results...
+    [0...population.length/2].map ->
+      opts.cross popRandom(p), popRandom(p), opts
+  [].concat results...
+
 
 mixin = (func) ->
   (population, opts) -> [].concat population, func(population, opts)
@@ -56,8 +51,7 @@ Crossover =
   randomPairsMixin: argsMixin randomPairs
 
 
-
-  # individual crossover functions
+  # individual crossover
   # (for binary-array type individuals)
 
   uniform: (a, b) ->
