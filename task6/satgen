@@ -1,0 +1,53 @@
+#!/usr/bin/env coffee
+###
+
+SAT instance format: {
+  varCount: Number
+  clauses: [
+    [ negation: Boolean, Number ]
+  ]
+  weights: [ Number ]
+}
+
+###
+fs = require 'fs'
+{randomInteger, popRandom} = require '../ga/utils'
+
+
+SatInstance = (varCount, varClauseRatio, clauseSizeFrom=3, clauseSizeTo=3) ->
+
+  if varCount < clauseSizeTo
+    clauseSizeTo = varCount
+
+  clauseCount = Math.round varCount * varClauseRatio
+
+  varCount: varCount
+
+  clauses: [1..clauseCount].map ->
+    vars = [1..varCount]
+    size = randomInteger clauseSizeFrom, clauseSizeTo
+    [1..size].map -> [randomInteger(0, 2), popRandom vars]
+
+  weights: [1..varCount].map -> randomInteger(1, 100)
+
+
+stringify = (obj) -> JSON.stringify obj, null, '\t'
+
+
+saveToFile = (string, filename) -> fs.writeFile filename, string
+
+
+if process.argv.length < 3
+  console.log '''
+    Usage: satgen <number of variables> <clauses-to-variables ratio> [clause-lenght-from] [clause-length-to]'
+    Default clause-length: 3
+    - or -
+    satgen set'''
+else if process.argv[2] is 'set'
+  for n in [20, 35, 50, 75, 100, 150, 200]
+    for ratio in [1..8]
+      data = stringify SatInstance n, ratio
+      fs.writeFile "instances/#{n}-#{ratio}.json", data
+else
+  console.log stringify SatInstance process.argv[2..]...
+
