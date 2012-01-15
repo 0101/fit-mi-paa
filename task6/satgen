@@ -34,9 +34,6 @@ SatInstance = (varCount, varClauseRatio, clauseSizeFrom=3, clauseSizeTo=3) ->
 stringify = (obj) -> JSON.stringify obj, null, '\t'
 
 
-saveToFile = (string, filename) -> fs.writeFile filename, string
-
-
 if process.argv.length < 3
   console.log '''
     Usage: satgen <number of variables> <clauses-to-variables ratio> [clause-lenght-from] [clause-length-to]'
