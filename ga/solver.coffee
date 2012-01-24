@@ -13,8 +13,11 @@ GASolver = (options) ->
 
   population = opts.getInitialPopulation opts
   while not opts.terminationCondition population, opts
-    for step in [opts.selection, opts.crossover, opts.mutation]
-      population = step population, opts
+    for step in ['selection', 'crossover', 'mutation']
+      population = opts[step] population, opts
+      if population.length is 0
+        throw "POPULATION VANISHED DURING #{step}"
+
     opts.cycleFinished population, opts
   opts.processResults population, opts
 

@@ -1,6 +1,7 @@
 # Common PAA utils
 
 fs = require 'fs'
+_ = require 'underscore'
 
 
 DEBUG = false
@@ -25,10 +26,16 @@ sum = (array) -> array.reduce ((a, b) -> a + b), 0
 average = (array) -> sum(array) / array.length
 
 
+averageInteger = (array) -> Math.round average array
+
+
 max = (array) -> Math.max array...
 
 
-allEqual = (array) -> array.reduce ((a, b) -> a and b is array[0]), true
+min = (array) -> Math.min array...
+
+
+allEqual = (array) -> array.reduce ((a, b) -> a and _.isEqual b, array[0]), true
 
 
 equalNumbers = (array, brray) ->
@@ -43,5 +50,16 @@ funcComp = (func, reverse=false) ->
   (a, b) -> coef * (func(a) - func(b))
 
 
+dict = (array) ->
+  d = {}
+  for [key, value] in array
+    d[key] = value
+  return d
+
+
+mergeArrays = (arrays) -> arrays.reduce ((a, b) -> a.concat b), []
+
+
 module.exports = {print, debug, setDebug, readTextFile, parseNubmers,
-  sum, average, max, equalNumbers, funcComp, allEqual}
+  sum, average, max, equalNumbers, funcComp, allEqual, mergeArrays,
+  averageInteger, dict, min}
