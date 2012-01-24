@@ -22,10 +22,7 @@ randomPairs = (repeat) -> (population, opts) ->
     p = [].concat population
     [0...(population.length-1)/2].map ->
       opts.cross popRandom(p), popRandom(p), opts
-  result = [].concat results...
-  if result.length is 0
-    console.log "POPULAtion:" , population
-  return result
+  [].concat results...
 
 
 mixin = (func) ->
