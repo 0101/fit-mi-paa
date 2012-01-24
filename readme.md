@@ -22,3 +22,6 @@ Genetic algorithms.
 `task5.coffee`
 **5th assignment**: solving knapsack using simulated evolution.
 
+`task6/`
+**final assignment**: solving weighted SAT using simulated evolution.
+
